@@ -100,15 +100,13 @@ WebSocketsServer webSocket(81);
 //AsyncWebSocket webSocket("/ws");
 PersWiFiManager persWM(server, dnsServer);
 
-#define DEBUG_IN_PIN D6 // marked "D12/MISO/D6" (Wemos D1) or D6 (Lolin NodeMCU)
+#define DEBUG_IN_PIN 3 // marked "D12/MISO/D6" (Wemos D1) or D6 (Lolin NodeMCU)
+#define SDA 2
+#define SCL 0
 // SCL = D1 (Lolin), D15 (Wemos D1) // ESP8266 Arduino default map: SCL
 // SDA = D2 (Lolin), D14 (Wemos D1) // ESP8266 Arduino default map: SDA
-#define LEDON \
-  pinMode(LED_BUILTIN, OUTPUT); \
-  digitalWrite(LED_BUILTIN, LOW)
-#define LEDOFF \
-  digitalWrite(LED_BUILTIN, HIGH); \
-  pinMode(LED_BUILTIN, INPUT)
+#define LEDON 
+#define LEDOFF 
 
 // fast ESP8266 digitalRead (21 cycles vs 77), *should* work with all possible input pins
 // but only "D7" and "D6" have been tested so far
@@ -247,7 +245,7 @@ struct adcOptions *adco = &adcopts;
 #define SLOTS_TOTAL 72 // max number of slots
 
 typedef struct {
-	char name[25];
+  char name[25];
   uint8_t presetID;
   uint8_t scanlines;
   uint8_t scanlinesStrength;
@@ -5600,7 +5598,7 @@ void stopWire() {
 }
 
 void startWire() {
-  Wire.begin();
+  Wire.begin(2, 0);
   // The i2c wire library sets pullup resistors on by default. 
   // Disable these to detect/work with GBS onboard pullups
   pinMode(SCL, OUTPUT_OPEN_DRAIN);
@@ -6941,8 +6939,8 @@ void setup() {
   rto->webServerEnabled = true;
   rto->webServerStarted = false; // make sure this is set
 
-  Serial.begin(115200); // Arduino IDE Serial Monitor requires the same 115200 bauds!
-  Serial.setTimeout(10);
+  //Serial.begin(115200); // Arduino IDE Serial Monitor requires the same 115200 bauds!
+  //Serial.setTimeout(10);
 
   // millis() at this point: typically 65ms
   // start web services as early in boot as possible
@@ -7025,7 +7023,7 @@ void setup() {
   typeTwoCommand = '@';
 
   pinMode(DEBUG_IN_PIN, INPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
+  //pinMode(LED_BUILTIN, OUTPUT);
   LEDON; // enable the LED, lets users know the board is starting up
 
   //Serial.setDebugOutput(true); // if you want simple wifi debug info

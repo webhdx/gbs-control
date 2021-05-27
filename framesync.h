@@ -5,7 +5,7 @@
 #if defined(ESP8266)
 #define digitalRead(x) ((GPIO_REG_READ(GPIO_IN_ADDRESS) >> x) & 1)
 #ifndef DEBUG_IN_PIN
-#define DEBUG_IN_PIN D6
+#define DEBUG_IN_PIN 3
 #endif
 #else // Arduino
    // fastest, but non portable (Uno pin 11 = PB3, Mega2560 pin 11 = PB5)
